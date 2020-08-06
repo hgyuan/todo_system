@@ -1,6 +1,5 @@
 package com.oocl.ita.todo_system.integration;
 
-import com.jayway.jsonpath.JsonPath;
 import com.oocl.ita.todo_system.entity.TodoItem;
 import com.oocl.ita.todo_system.repository.TodoItemRepository;
 import org.junit.jupiter.api.AfterEach;
@@ -11,6 +10,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -27,7 +28,7 @@ public class TodoItemsIntegrationTest {
     private TodoItemRepository todoItemRepository;
 
     @BeforeEach
-    public void initDb(){
+    public void initDb() {
         TodoItem todoItem = new TodoItem();
         todoItem.setText("123");
         todoItem.setMark(false);
@@ -35,7 +36,7 @@ public class TodoItemsIntegrationTest {
     }
 
     @AfterEach
-    public void clearDb(){
+    public void clearDb() {
         todoItemRepository.deleteAll();
     }
 
@@ -66,12 +67,19 @@ public class TodoItemsIntegrationTest {
         TodoItem todoItem = todoItemRepository.findAll().stream().findFirst().get();
 
         String value = "{\n" +
-                "    \"id\": "+todoItem.getId()+",\n" +
+                "    \"id\": " + todoItem.getId() + ",\n" +
                 "    \"text\": \"123123123\",\n" +
                 "    \"mark\": true\n" +
                 "}";
-        mockMvc.perform(put("/todoItems/"+todoItem.getId()).contentType(MediaType.APPLICATION_JSON).content(value))
+        mockMvc.perform(put("/todoItems/" + todoItem.getId()).contentType(MediaType.APPLICATION_JSON).content(value))
                 .andExpect(jsonPath("text").value("123123123"))
                 .andExpect(jsonPath("mark").value(true));
+    }
+
+    @Test
+    void should_no_todo_item_response_when_delete_todo_item_given_todo_item_id() throws Exception {
+        TodoItem todoItem = todoItemRepository.findAll().stream().findFirst().get();
+        mockMvc.perform(delete("/todoItems/" + todoItem.getId())).andExpect(status().isOk());
+        assertEquals(0, todoItemRepository.findAll().size());
     }
 }
