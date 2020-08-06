@@ -9,4 +9,5 @@ public interface TodoItemService {
     List<TodoItemResponse> getTodoItems();
     void deleteTodoItemById(Integer id);
     TodoItem addTodoItem(TodoItem todoItem);
+    TodoItem updateTodoItem(TodoItem todoItem, Integer id);
 }

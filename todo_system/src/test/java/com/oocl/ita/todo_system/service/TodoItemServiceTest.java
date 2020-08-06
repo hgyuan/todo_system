@@ -68,4 +68,20 @@ public class TodoItemServiceTest {
         assertEquals("123", todoItemResponse.getText());
         assertEquals(false, todoItemResponse.getMark());
     }
+
+    @Test
+    void should_return_a_todo_item_response_when_update_todo_item_given_a_todo_item_request_a_id() {
+        //given
+        Integer id = 1;
+        TodoItemRequest todoItemRequest = new TodoItemRequest( "123", false);
+        TodoItem todoItem = TodoItemRequestMapper.toEntity(todoItemRequest);
+        todoItem.setId(id);
+        //when
+        when(todoItemRepository.save(any())).thenReturn(todoItem);
+        TodoItem resultTodoItem = todoItemService.updateTodoItem(todoItem, id);
+        TodoItemResponse todoItemResponse = TodoItemResponseMapper.todoItemsToTodoItemResponse(resultTodoItem);
+        //then
+        assertEquals("123", todoItemResponse.getText());
+        assertEquals(false, todoItemResponse.getMark());
+    }
 }
