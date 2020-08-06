@@ -2,6 +2,7 @@ package com.oocl.ita.todo_system.service.impl;
 
 import com.oocl.ita.todo_system.dto.TodoItemResponse;
 import com.oocl.ita.todo_system.dto.mapper.TodoItemResponseMapper;
+import com.oocl.ita.todo_system.entity.TodoItem;
 import com.oocl.ita.todo_system.repository.TodoItemRepository;
 import com.oocl.ita.todo_system.service.TodoItemService;
 import org.springframework.stereotype.Service;
@@ -24,5 +25,10 @@ public class TodoItemServiceImpl implements TodoItemService {
 
     public void deleteTodoItemById(Integer id) {
         todoItemRepository.deleteById(id);
+    }
+
+    @Override
+    public TodoItem addTodoItem(TodoItem todoItem) {
+        return new TodoItem();
     }
 }

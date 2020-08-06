@@ -6,6 +6,13 @@ public class TodoItemRequest {
 
     private Boolean mark;
 
+    public TodoItemRequest(){}
+
+    public TodoItemRequest(String text, Boolean mark) {
+        this.text = text;
+        this.mark = mark;
+    }
+
     public String getText() {
         return text;
     }
@@ -21,4 +28,7 @@ public class TodoItemRequest {
     public void setMark(Boolean mark) {
         this.mark = mark;
     }
+
+
+
 }
