@@ -1,6 +1,8 @@
 package com.oocl.ita.todo_system.service.impl;
 
+import com.oocl.ita.todo_system.dto.TodoItemRequest;
 import com.oocl.ita.todo_system.dto.TodoItemResponse;
+import com.oocl.ita.todo_system.dto.mapper.TodoItemRequestMapper;
 import com.oocl.ita.todo_system.dto.mapper.TodoItemResponseMapper;
 import com.oocl.ita.todo_system.entity.TodoItem;
 import com.oocl.ita.todo_system.repository.TodoItemRepository;
@@ -28,13 +30,15 @@ public class TodoItemServiceImpl implements TodoItemService {
     }
 
     @Override
-    public TodoItem addTodoItem(TodoItem todoItem) {
-        return todoItemRepository.save(todoItem);
+    public TodoItemResponse addTodoItem(TodoItemRequest todoItemRequest) {
+        TodoItem todoItem = TodoItemRequestMapper.toEntity(todoItemRequest);
+        return TodoItemResponseMapper.todoItemsToTodoItemResponse(todoItemRepository.save(todoItem));
     }
 
     @Override
-    public TodoItem updateTodoItem(TodoItem todoItem, Integer id) {
+    public TodoItemResponse updateTodoItem(TodoItemRequest todoItemRequest, Integer id) {
+        TodoItem todoItem = TodoItemRequestMapper.toEntity(todoItemRequest);
         todoItem.setId(id);
-        return todoItemRepository.save(todoItem);
+        return TodoItemResponseMapper.todoItemsToTodoItemResponse(todoItemRepository.save(todoItem));
     }
 }

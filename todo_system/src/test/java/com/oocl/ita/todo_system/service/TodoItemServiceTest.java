@@ -7,21 +7,18 @@ import com.oocl.ita.todo_system.dto.mapper.TodoItemResponseMapper;
 import com.oocl.ita.todo_system.entity.TodoItem;
 import com.oocl.ita.todo_system.repository.TodoItemRepository;
 import com.oocl.ita.todo_system.service.impl.TodoItemServiceImpl;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.mockito.ArgumentMatchers.any;
-
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -62,11 +59,10 @@ public class TodoItemServiceTest {
         TodoItem todoItem = TodoItemRequestMapper.toEntity(todoItemRequest);
         //when
         when(todoItemRepository.save(any())).thenReturn(todoItem);
-        TodoItem resultTodoItem = todoItemService.addTodoItem(todoItem);
-        TodoItemResponse todoItemResponse = TodoItemResponseMapper.todoItemsToTodoItemResponse(resultTodoItem);
+        TodoItemResponse resultTodoItem = todoItemService.addTodoItem(todoItemRequest);
         //then
-        assertEquals("123", todoItemResponse.getText());
-        assertEquals(false, todoItemResponse.getMark());
+        assertEquals("123", resultTodoItem.getText());
+        assertEquals(false, resultTodoItem.getMark());
     }
 
     @Test
@@ -78,10 +74,9 @@ public class TodoItemServiceTest {
         todoItem.setId(id);
         //when
         when(todoItemRepository.save(any())).thenReturn(todoItem);
-        TodoItem resultTodoItem = todoItemService.updateTodoItem(todoItem, id);
-        TodoItemResponse todoItemResponse = TodoItemResponseMapper.todoItemsToTodoItemResponse(resultTodoItem);
+        TodoItemResponse resultTodoItem = todoItemService.updateTodoItem(todoItemRequest, id);
         //then
-        assertEquals("123", todoItemResponse.getText());
-        assertEquals(false, todoItemResponse.getMark());
+        assertEquals("123", resultTodoItem.getText());
+        assertEquals(false, resultTodoItem.getMark());
     }
 }
