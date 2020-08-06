@@ -23,5 +23,6 @@ public class TodoItemServiceImpl implements TodoItemService {
     }
 
     public void deleteTodoItemById(Integer id) {
+        todoItemRepository.deleteById(id);
     }
 }
