@@ -34,6 +34,7 @@ public class TodoItemServiceImpl implements TodoItemService {
 
     @Override
     public TodoItem updateTodoItem(TodoItem todoItem, Integer id) {
-        return new TodoItem();
+        todoItem.setId(id);
+        return todoItemRepository.save(todoItem);
     }
 }
