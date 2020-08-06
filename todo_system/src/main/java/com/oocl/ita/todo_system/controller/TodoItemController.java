@@ -3,7 +3,6 @@ package com.oocl.ita.todo_system.controller;
 import com.oocl.ita.todo_system.dto.TodoItemRequest;
 import com.oocl.ita.todo_system.dto.TodoItemResponse;
 import com.oocl.ita.todo_system.service.TodoItemService;
-import com.sun.org.apache.regexp.internal.RE;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
