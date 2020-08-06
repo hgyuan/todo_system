@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface TodoItemService {
     List<TodoItemResponse> getTodoItems();
+    void deleteTodoItemById(Integer id);
 }

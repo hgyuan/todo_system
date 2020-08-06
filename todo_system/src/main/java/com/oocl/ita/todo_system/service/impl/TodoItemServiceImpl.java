@@ -21,4 +21,7 @@ public class TodoItemServiceImpl implements TodoItemService {
     public List<TodoItemResponse> getTodoItems() {
         return TodoItemResponseMapper.todoItemsToTodoItemResponses(todoItemRepository.findAll());
     }
+
+    public void deleteTodoItemById(Integer id) {
+    }
 }

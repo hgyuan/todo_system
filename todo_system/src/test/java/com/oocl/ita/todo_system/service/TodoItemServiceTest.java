@@ -8,7 +8,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import static org.mockito.ArgumentMatchers.any;
 
 
 import java.util.ArrayList;
@@ -36,5 +38,15 @@ public class TodoItemServiceTest {
         List<TodoItemResponse> result = todoItemService.getTodoItems();
         //then
         assertEquals(1, result.size());
+    }
+
+    @Test
+    void should_when_delete_todo_item_by_id_given_1_id() {
+        //given
+        Integer id = 1;
+        //when
+        todoItemService.deleteTodoItemById(id);
+        //then
+        Mockito.verify(todoItemRepository, Mockito.times(1)).deleteById(any());
     }
 }
