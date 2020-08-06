@@ -35,6 +35,6 @@ public class TodoItemServiceTest {
         //when
         List<TodoItemResponse> result = todoItemService.getTodoItems();
         //then
-        assertEquals(1,result.size());
+        assertEquals(1, result.size());
     }
 }
