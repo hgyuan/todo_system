@@ -3,6 +3,7 @@ package com.oocl.ita.todo_system.integration;
 import com.jayway.jsonpath.JsonPath;
 import com.oocl.ita.todo_system.entity.TodoItem;
 import com.oocl.ita.todo_system.repository.TodoItemRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,12 @@ public class TodoItemsIntegrationTest {
         todoItemRepository.save(todoItem);
     }
 
+    @AfterEach
+    public void clearDb(){
+        todoItemRepository.deleteAll();
+    }
+
+
     @Test
     public void should_return_1_todo_item_when_get_todo_items_given_1_todo_item() throws Exception {
         mockMvc.perform(get("/todoItems"))
@@ -46,10 +53,25 @@ public class TodoItemsIntegrationTest {
         String value = "{\n" +
                 "\n" +
                 "    \"text\":\"123123\",\n" +
-                "    \"mark\":true\n" +
+                "    \"mark\":false\n" +
                 "\n" +
                 "}";
         mockMvc.perform(post("/todoItems").contentType(MediaType.APPLICATION_JSON).content(value))
-                .andExpect(jsonPath("text").value("123123"));
+                .andExpect(jsonPath("text").value("123123"))
+                .andExpect(jsonPath("mark").value(false));
+    }
+
+    @Test
+    void should_return_todo_item_response_when_update_todo_item_given_1_todo_item_request() throws Exception {
+        TodoItem todoItem = todoItemRepository.findAll().stream().findFirst().get();
+
+        String value = "{\n" +
+                "    \"id\": "+todoItem.getId()+",\n" +
+                "    \"text\": \"123123123\",\n" +
+                "    \"mark\": true\n" +
+                "}";
+        mockMvc.perform(put("/todoItems/"+todoItem.getId()).contentType(MediaType.APPLICATION_JSON).content(value))
+                .andExpect(jsonPath("text").value("123123123"))
+                .andExpect(jsonPath("mark").value(true));
     }
 }
